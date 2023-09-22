@@ -1,0 +1,179 @@
+<!-- hours count down  -->
+{% if section.settings.homecount_timer %}
+<div class="page-width">
+<div id="clockdiv" style="background:{{section.settings.homebackground_color2 }}">
+<div class="custom_count">
+<div class="Hour_sale">
+{% if  section.settings.homesaletiming2 != blank %}
+<h3 style="color:{{ section.settings.font_color }}">{{ section.settings.homesaletiming2 }}</h3>
+{% endif %}
+</div>  
+<div id="countdown">
+<div id='tiles'></div>
+<div class="labels">
+<li><span class="c_timevalue" id="hrs"></span><span class="c_label">Hours</span></li>
+<li><span class="c_timevalue" id="mins"></span><span class="c_label">MINUTES</span></li>
+<li><span class="c_timevalue" id="sec"></span><span class="c_label">SECONDS</span></li>
+</div>
+</div>      
+</div>
+</div>
+</div>
+{% endif %}
+
+<!-- For Hours  -->
+<!-- <script>
+function Timer(duration) 
+{
+    var timer = duration, hours, minutes, seconds;
+    setInterval(function () {
+      hours = parseInt((timer /3600), 10)
+      minutes = parseInt((timer / 60) %60, 10)
+      seconds = parseInt(timer % 60, 10);
+
+      hours = hours < 10 ? "0" + hours : hours;
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+      
+      document.getElementById('hrs').textContent = dynamichrs;
+      document.getElementById('mins').textContent = minutes;
+      document.getElementById('sec').textContent = seconds;
+      
+		--timer;
+        localStorage.setItem("countDown",timer)
+    }, 1000);
+}
+var dynamichrs="{{ section.settings.hours_pickernew }}";
+var minutes = "{{ section.settings.minutesnew }}";
+console.log("min",minutes);
+  
+if(minutes){
+  minutes = parseInt(minutes)/60;
+}else{ minutes = 0;}
+var twentyFourHours = (dynamichrs ? (parseInt(dynamichrs)) + minutes : 0) * (60 * 60);
+console.log(twentyFourHours);
+
+if(localStorage.getItem("countDown") && parseInt(localStorage.getItem("countDown")) > 0){
+  Timer(parseInt(localStorage.getItem("countDown")));
+}else{
+  localStorage.setItem("countDown",twentyFourHours);
+  Timer(twentyFourHours);
+}
+  
+
+</script> -->
+<script>
+function Timer(duration) 
+{
+    var timer = duration, hours, minutes, seconds;
+    setInterval(function () {
+      hours = parseInt((timer /3600), 10)
+      minutes = parseInt((timer / 60) %60, 10)
+      seconds = parseInt(timer % 60, 10);
+
+      hours = hours < 10 ? "0" + hours : hours;
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+      
+      document.getElementById('hrs').textContent = dynamichrs;
+      document.getElementById('mins').textContent = minutes;
+      document.getElementById('sec').textContent = seconds;
+      
+		--timer;
+        if(timer < 0)
+        {
+            var dynamichrs1="{{ section.settings.hours_pickernew }}";
+            var minutes1 = "{{ section.settings.minutesnew }}";
+            if(minutes1){
+              minutes1 = parseInt(minutes1)/60;
+            }else{ minutes1 = 0;}
+            var twentyFourHours1 = (dynamichrs1 ? (parseInt(dynamichrs1)) + minutes1 : 0) * (60 * 60);
+            Timer(twentyFourHours1);
+        }
+        else {
+          localStorage.setItem("CollectioncountDown",timer);
+          localStorage.setItem("CollectioncountHrs",dynamichrs);
+          localStorage.setItem("CollectioncountMin",minutes);
+          localStorage.setItem("CollectioncountSec",seconds);      
+        }
+
+      
+    }, 1000);
+}
+var dynamichrs="{{ section.settings.hours_pickernew }}";
+var minutes = "{{ section.settings.minutesnew }}";
+// console.log("min",minutes);
+  
+if(minutes){
+  minutes = parseInt(minutes)/60;
+}else{ minutes = 0;}
+var twentyFourHours = (dynamichrs ? (parseInt(dynamichrs)) + minutes : 0) * (60 * 60);
+if(localStorage.getItem("CollectioncountDown") && parseInt(localStorage.getItem("CollectioncountDown")) > 0){
+  Timer(parseInt(localStorage.getItem("CollectioncountDown")));
+}else{
+  localStorage.setItem("CollectioncountDown",twentyFourHours);
+  Timer(twentyFourHours);
+}
+</script>
+<!-- ends   -->
+
+{% schema %}
+{
+"name": "Sale Timer",
+"class" : "homepage-timer",
+"settings": [
+{
+"type" : "checkbox",
+"id" : "homecount_timer",
+"label" : "Hide or Show Sale Count",
+"default" : true
+},
+{
+"type": "color",
+"id": "homebackground_color",
+"label": "Container Background color",
+"default": "#ffffff"
+},
+{
+"type": "color",
+"id": "homefont_color",
+"label": "Font color",
+"default": "#ffffff"
+},
+{
+"type": "color",
+"id": "homebackground_color2",
+"label": "Container Background color",
+"default": "#ffffff"
+},
+  {
+"type" : "text",
+"id" : "homesaletiming2",
+"label" :"Sale Timing"
+},
+{
+"type": "text",
+"id": "hours_pickernew",
+"label": "Set Hours",
+"default": "5"
+},
+  {
+    "type" : "text",
+    "id" : "minutesnew",
+    "label" : "Select Minutes"
+  }
+
+],
+"presets" : [
+{
+"name" : "Sale Timer"
+}
+]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
