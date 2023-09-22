@@ -1,0 +1,276 @@
+<section class="home-product-tabone-Nav">
+    <div class="page-width">
+        <div class="tab_menu_wrap">
+        <div class="tab-menu product-collectnav">
+            <ul class="list-inline-color">
+                {% for block in section.blocks %}
+                <li>
+                    <a href="javascript:void(0)" data-url={{ block.settings.viewallurl }} class="tab-p {% if forloop.index < 2 %}active-p{% endif %}"
+                        data-id="tab p{{forloop.index}}"> {{block.settings.title}} </a>
+                </li>
+             
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="view_all_desktop_only">
+            <a href="{{ section.blocks[0].settings.viewallurl }}" class="home_product_collection">View All</a>
+          </div>
+        </div>
+
+        <div class="">
+            {% for block in section.blocks %}
+
+            <div class="tab prtab {% if forloop.index < 2 %} tab-active {% endif%}" data-id="tab p{{forloop.index}}" style="{% if forloop.index > 1 %} display:none; {% endif%}">
+                <div class="tabcontent">
+                    <div class="product-collection-nav">
+                        <div class="product-collection-left-nav">
+                            <div class="left-nav-image-box01">
+                                <div class="left-nav-image-box02">
+                                    <img src="{{block.settings.lifestyle_image | img_url : '800x'}}" alt="{{block.settings.lifestyle_image.alt}}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-collection-right-nav">
+                            <div class="grid-nav-systeam">
+                                <div class="gridnav-systeam-boxnav">
+                                    {% if block.settings.action_type == "collection" %}
+                                    {% for product in collections[block.settings.collection_handle].products limit : 4
+                                    %}
+{{ product.title }}
+                                    {% for variant in product.variants limit : 1 %}
+                                    {% assign count_img = 0 %}
+                                    <div class="product-grid3">
+                                        <div class="product-image3">
+                                            <a href="{{product.url}}">
+    {% assign colours_arr = variant.title | split: '/' %}
+    {% for colouname in colours_arr limit : 1 %}
+    {% assign updatedcolouname2 = colouname | rstrip %}
+    {% assign updatedcolortext = updatedcolouname2 | replace: " ", "-" | downcase %}
+    {% endfor %}
+    <img class="s pic-1" src="{{ variant.image.src | img_url: '800x' }}" alt="{{variant.image.alt}}">
+    {% for image in product.images %}
+      {% unless image.alt contains updatedcolortext %}
+    {% assign count_img = variable | plus: 1 %}
+    <img class="pic-2 t1" src="{{ image | img_url: '800x' }}"
+        data-img="{{count_img}}" alt="{{image.alt}}">
+    {% break %}
+        {% endunless %}
+    {% endfor %}
+                                      
+                                                {% if count_img == 0 %}
+                                                {% for image in product.images %}
+                                                {% unless image.alt contains "front" and image.alt contains updatedcolortext
+                                                %}
+                                                <img class="pic-2 text-wvt-{{forloop.rindex}} t2"
+                                                    src="{{ image | img_url: '800x' }}" alt="{{image.alt}}">
+                                                {% break %}
+                                                {% endunless %}
+                                                {% endfor %}
+                                                {% endif %}
+                                            </a>
+                                            <!--   // code for new tag  -->
+                                            <div class="labelss">
+                                                {% for tag in product.tags %}
+                                                {% if tag contains "badge:new" %}
+                                                <span class="product-new-label">{{ 'general.default.new' | t }}</span>
+                                                {% break %}
+                                                {% endif %}
+                                                {% endfor %}
+
+                                                <!--    // code for variant sale tag -->
+                                                {% if variant.compare_at_price > variant.price %}
+                                                <span class="product-sale-label pricesale">
+                                                  {{ variant.compare_at_price | minus: variant.price | times: 100.0 | divided_by: variant.compare_at_price | round}}{{ 'general.default.off' | t }}
+                                                </span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="product-content nav-new-p-content">
+                                            <div class="productnametitle">
+                                                <h3 class="title"><a href="{{variant.url}}">
+                                      {% comment %}{{product.title}}{% endcomment %}
+                                      
+                                      {%if product.title contains '12' and gift_collection%} Phone Cases {%else%} {{ product.metafields.custom.product_title_cards }} {%endif%}
+                                      </a></h3>
+                                      <div class="pricetag">
+                                                <p> <span class = "price1 {% if variant.compare_at_price %}price-item--sale {% endif %}">{{variant.price | money | replace: '.00', ''}}</span>{% if variant.price < variant.compare_at_price %}<span class="price2"><del>{{variant.compare_at_price |money}}</del> {% endif %}</span> </p>
+                                            </div>
+                                            </div>
+                                              <p> 
+                                      <span class="variant_t"> {{ variant.title }} </span>
+                                      <span class="onhover_chnageTitle hide"></span>
+                                      </p>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    {% endfor %}
+                                    <!--  //CODE FOR PRODUCT CONDITIONS -->
+                                    {% else %}
+                                    {% assign product = all_products[block.settings.product_handle] %}
+                                    {% for variant in product.variants limit : 4 %}
+  
+                                    {% assign count_img1 = 0 %}
+                                    <div class="product-grid3">
+                                        <div class="product-image3">
+                                            <a href="{{product.url}}">
+                                                {% assign colours_arr = variant.title | split: '/' %}
+                                                {% for colouname in colours_arr limit : 1 %}
+                                               
+                                                {% assign updatedcolouname2 = colouname | rstrip %}
+                                                {% assign updatedcolortext = updatedcolouname2 | replace: " ", "-" | downcase %}
+                                                {% endfor %}
+                                                {% for image in product.images %}
+                                                {% if image.alt contains "front" and image.alt contains updatedcolortext
+                                                %}
+                                                <img class="pic-1 text-wvt-{{forloop.rindex}}"
+                                                    src="{{ image | img_url: '800x' }}" alt="{{image.alt}}">
+                                                {% break %}
+                                                {% endif %}
+
+                                                {% endfor %}
+                                                {% for image in product.images %}
+                                                {% if image.alt contains "perspective" and image.alt contains updatedcolortext %}
+                                                {% assign count_img1 = variable | plus: 1 %}
+                                                <img class="pic-2" src="{{ image | img_url: '800x' }}"
+                                                    data-img="{{count_img}}" alt="{{image.alt}}">
+                                                {% break %}
+                                                {% endif %}
+                                                {% endfor %}
+                                                {% if count_img1 == 0 %}
+                                                {% for image in product.images %}
+                                                {% unless image.alt contains "front" and image.alt contains updatedcolortext %}
+                                                <img class="pic-2 t3 text-wvt-{{forloop.rindex}}"
+                                                    src="{{ image | img_url: '800x' }}" alt="{{image.alt}}">
+
+                                                {% break %}
+                                                {% endunless %}
+
+                                                {% endfor %}
+                                                {% endif %}
+                                            </a>
+                                            <div class="labelss">
+                                                <!--  // code for new tag  -->
+
+                                                {% for tag in product.tags %}
+                                                {% if tag contains "badge:new" %}
+                                                <span class="product-new-label">{{ 'general.default.new' | t }}</span>
+                                                {% break %}
+                                                {% endif %}
+                                                {% endfor %}
+                                                {% if variant.compare_at_price > variant.price %}
+<span class="product-sale-label">{{ variant.compare_at_price | minus: variant.price | times: 100.0 | divided_by: variant.compare_at_price | round}}{{ 'general.default.off' | t }}</span>{% endif %}
+
+                                            </div>
+                                        </div>
+                                        <div class="product-content nav-new-p-content">
+                                            <div class="productnametitle">
+                                                <h3 class="title"><a href="{{variant.url}}">{{ product.metafields.custom.product_title_cards }}</a></h3>
+                                                <div class="pricetag">
+                                                <p> <span>{{variant.price | money}}{% if variant.price < product.price %}<del>{{product.price}}</del> {% endif %}</span> </p>
+                                            </div>
+                                            </div>
+                                            
+                                      <p>
+                                        <span class="variant_t"> in {{ variant.title }} </span>
+                                        <span class="onhover_chnageTitle hide"></span>
+                                      </p>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="view-all-p-btnn">
+                        {% if block.settings.action_type == "product" %}
+                        {% assign produ = all_products[block.settings.product_handle] %}
+                        <a href="{{product.url}}"> {{section.settings.view_all}} </a>
+                        {% else %}
+                        {%- assign collection = collections[block.settings.collection_handle] -%}
+
+                        <a href="{{collection.url}}"> {{section.settings.view_all}} </a>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+            {% endfor %}
+
+            <div class="view_all_mobile_only">
+              <a href="{{ section.blocks[0].settings.viewallurl }}" class="home_product_collection">View All</a>
+            </div> 
+          
+        </div>
+    </div>
+</section>
+{% schema %}
+
+{
+  "name": "Home Product Tabs-1",
+  "max_blocks": 9999,
+  "settings": [
+    {
+      "type": "text",
+      "id": "view_all",
+      "label": "CTA Text"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "featured_collection",
+      "name": "Product Tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Tab title(Optional)"
+        },
+        {
+          "type": "url",
+          "id": "viewallurl",
+          "label": "Collection Url"
+        },
+        {
+          "type": "image_picker",
+          "id": "lifestyle_image",
+          "label": "Lifestyle image"
+        },
+        {
+          "type": "radio",
+          "id": "action_type",
+          "label": "CTA Action Type",
+          "options": [
+            {
+              "label": "Product",
+              "value": "product"
+            },
+            {
+              "label": "Collection",
+              "value": "collection"
+            }
+          ],
+          "default": "product"
+        },
+        {
+          "type": "product",
+          "id": "product_handle",
+          "label": "Product"
+        },
+        {
+          "type": "collection",
+          "id": "collection_handle",
+          "label": "Collection"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Home Product Tabs-1"
+    }
+  ]
+}
+
+{% endschema %}
