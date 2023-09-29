@@ -1,0 +1,73 @@
+<section class="personalised_sec">
+  <div class="Personalised_container page-width"">
+ <div class="Personalised_row">
+ <div class="Personalised_col">
+<h2>Crafting personalised leather goods</h2>
+  </div>
+    <div class="Personalised_col">
+    <div class="Personalised_col_row">
+    <div class="Personalised_col_content">
+    <h4>
+      Heritage Craftsmanship  <i class="fa fa-plus"></i>
+    </h4>
+      <div class="content_acco">
+<p>Our products stand the test of time, each one finished by hand at our atelier in Sydney.</p>
+      </div>
+  </div>
+       <div class="Personalised_col_content">
+    <h4>
+      Heritage Craftsmanship  <i class="fa fa-plus"></i>
+    </h4>
+      <div class="content_acco">
+<p>Our products stand the test of time, each one finished by hand at our atelier in Sydney.</p>
+      </div>
+  </div>
+       <div class="Personalised_col_content">
+    <h4>
+      Heritage Craftsmanship  <i class="fa fa-plus"></i>
+    </h4>
+      <div class="content_acco">
+<p>Our products stand the test of time, each one finished by hand at our atelier in Sydney.</p>
+      </div>
+  </div>
+       <div class="Personalised_col_content">
+    <h4>
+      Heritage Craftsmanship  <i class="fa fa-plus"></i>
+    </h4>
+      <div class="content_acco">
+<p>Our products stand the test of time, each one finished by hand at our atelier in Sydney.</p>
+      </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+</section>
+
+<script>
+  $(".Personalised_col_content > h4").on("click", function() {
+    if ($(this).hasClass("active")) {
+      $(this).removeClass("active");
+      $(this)
+      .siblings(".content_acco")
+      .slideUp(300);
+      $(".Personalised_col_content > h4 i")
+      .removeClass("fa-minus")
+      .addClass("fa-plus");
+    } else {
+      $(".Personalised_col_content > h4 i")
+      .removeClass("fa-minus")
+      .addClass("fa-plus");
+      $(this)
+      .find("i")
+      .removeClass("fa-plus")
+      .addClass("fa-minus");
+      $(".Personalised_col_content > h4").removeClass("active");
+      $(this).addClass("active");
+      $(".content_acco").slideUp(300);
+      $(this)
+      .siblings(".content_acco")
+      .slideDown(300);
+    }
+  });
+</script>
